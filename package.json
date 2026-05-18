@@ -1,0 +1,46 @@
+{
+  "name": "canadavisa",
+  "version": "1.0.0",
+  "description": "VisaPrep is a consumer web app for travellers preparing visa applications. The core surface is a **document checklist tool** that turns the typical static \"what you need\" page into a stateful, personalised flow.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/upadas/visaprep.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/upadas/visaprep/issues"
+  },
+  "homepage": "https://github.com/upadas/visaprep#readme",
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.5.0",
+    "jsdom": "^26.1.0",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^4.3.0",
+    "vite": "^6.4.2",
+    "vitest": "^3.2.4"
+  }
+}
