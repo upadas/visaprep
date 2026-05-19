@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from 'react'
 import { useStore } from './store/useStore'
-import { DOCS } from './data/docs'
+import { getDocsForCountry } from './data/docsForCountry'
 import { COUNTRIES } from './data/countries'
 import TopBar from './components/TopBar'
 import Rail from './components/Rail'
@@ -28,8 +28,9 @@ export default function App() {
   } = useStore()
 
   const c = COUNTRIES[country] ?? COUNTRIES.canada
-  const done  = DOCS.filter((d) => statuses[d.id] === 'done').length
-  const total = DOCS.length
+  const docs = getDocsForCountry(country)
+  const done  = docs.filter((d) => statuses[d.id] === 'done').length
+  const total = docs.length
 
   useEffect(() => {
     const hash = window.location.hash
@@ -57,7 +58,7 @@ export default function App() {
       if (page !== 'app') return
       if (view !== 'wizard') return
       if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return
-      if (e.key === 'ArrowRight') setCurrent(Math.min(DOCS.length - 1, current + 1))
+      if (e.key === 'ArrowRight') setCurrent(Math.min(docs.length - 1, current + 1))
       if (e.key === 'ArrowLeft')  setCurrent(Math.max(0, current - 1))
     }
     window.addEventListener('keydown', onKey)
@@ -127,7 +128,7 @@ export default function App() {
 
               {view === 'wizard'
                 ? <Wizard
-                    docs={DOCS}
+                    docs={docs}
                     statuses={statuses}
                     current={current}
                     setCurrent={setCurrent}
@@ -136,7 +137,7 @@ export default function App() {
                     setFiles={setFiles}
                   />
                 : <Board
-                    docs={DOCS}
+                    docs={docs}
                     statuses={statuses}
                     setStatus={setStatus}
                     setCurrent={setCurrent}
