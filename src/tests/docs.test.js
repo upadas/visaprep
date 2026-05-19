@@ -25,4 +25,16 @@ describe('COUNTRIES', () => {
     expect(COUNTRIES).toHaveProperty('schengen')
   })
   it('canada has expected fee', () => { expect(COUNTRIES.canada.fee).toBe('CAD $100') })
+  it('has ~40 entries', () => { expect(Object.keys(COUNTRIES).length).toBeGreaterThanOrEqual(40) })
+  it('every entry has required shape', () => {
+    for (const [key, c] of Object.entries(COUNTRIES)) {
+      expect(c, `${key} missing flag`).toHaveProperty('flag')
+      expect(c, `${key} missing name`).toHaveProperty('name')
+      expect(c, `${key} missing visa`).toHaveProperty('visa')
+      expect(c, `${key} missing fee`).toHaveProperty('fee')
+      expect(c, `${key} missing proc`).toHaveProperty('proc')
+      expect(c, `${key} missing currency`).toHaveProperty('currency')
+      expect(typeof c.eVisa, `${key}.eVisa must be boolean`).toBe('boolean')
+    }
+  })
 })
