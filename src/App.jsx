@@ -10,12 +10,16 @@ import TweaksPanel from './components/TweaksPanel'
 import Wizard from './wizard/Wizard'
 import Board from './board/Board'
 import SaveModal, { decodeState } from './components/SaveModal'
+import GuidesPage from './pages/GuidesPage'
+import DocumentsPage from './pages/DocumentsPage'
+import HelpPage from './pages/HelpPage'
 
 export default function App() {
   const {
     country, setCountry,
     view, setView,
     current, setCurrent,
+    page, setPage,
     profile, setProfile,
     statuses, setStatus,
     files, setFiles,
@@ -50,6 +54,7 @@ export default function App() {
 
   useEffect(() => {
     const onKey = (e) => {
+      if (page !== 'app') return
       if (view !== 'wizard') return
       if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return
       if (e.key === 'ArrowRight') setCurrent(Math.min(DOCS.length - 1, current + 1))
@@ -57,7 +62,7 @@ export default function App() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [view, current, setCurrent])
+  }, [page, view, current, setCurrent])
 
   const [toast, setToast] = useState({ msg: '', show: false })
   const flash = useCallback((msg) => {
@@ -66,7 +71,6 @@ export default function App() {
   }, [])
 
   const [saveModalOpen, setSaveModalOpen] = useState(false)
-  const [page, setPage] = useState('app')
 
   const handleCountry = (val) => { setCountry(val); flash('Switched country') }
   const handleReset   = () => { resetProgress(); flash('Progress reset') }
@@ -80,6 +84,12 @@ export default function App() {
         page={page}
         onPage={setPage}
       />
+
+      {page === 'guides'    && <GuidesPage />}
+      {page === 'documents' && <DocumentsPage />}
+      {page === 'help'      && <HelpPage />}
+
+      {page === 'app' && (
 
       <div>
         <div className="page-head">
@@ -142,6 +152,7 @@ export default function App() {
           </div>
         </div>
       </div>
+      )}
 
       <TweaksPanel tweaks={tweaks} setTweak={setTweak} />
       <Toast msg={toast.msg} show={toast.show} />
