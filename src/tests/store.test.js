@@ -47,4 +47,15 @@ describe('useStore', () => {
     expect(store().profile.purpose).toBe('Family')
     expect(store().profile.passport).toBe('India')
   })
+
+  it('initial page is app', () => { expect(store().page).toBe('app') })
+  it('setPage changes page', () => {
+    store().setPage('guides')
+    expect(store().page).toBe('guides')
+  })
+  it('resetProgress does not change page', () => {
+    store().setPage('guides')
+    store().resetProgress()
+    expect(store().page).toBe('guides')
+  })
 })

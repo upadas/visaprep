@@ -16,6 +16,7 @@ const INITIAL = {
   country: 'canada',
   view: 'wizard',
   current: 0,
+  page: 'app',
   profile: { passport: 'India', purpose: 'Tourism', stay: '14 days', party: 'Family', history: 'No' },
   statuses: {},
   files: {},
@@ -31,6 +32,7 @@ export const useStore = create((set, get) => ({
   setCountry: (country) => set({ country }),
   setView:    (view)    => set({ view }),
   setCurrent: (current) => set({ current }),
+  setPage:    (page)    => set({ page }),
 
   setProfile: (patch) => set((s) => ({ profile: { ...s.profile, ...patch } })),
 
@@ -58,4 +60,9 @@ export const useStore = create((set, get) => ({
   }),
 }))
 
-useStore.getInitialState = () => ({ ...INITIAL, statuses: {}, files: {}, tweaks: { ...INITIAL.tweaks } })
+useStore.getInitialState = () => ({
+  ...INITIAL,
+  statuses: {},
+  files: {},
+  tweaks: { ...INITIAL.tweaks },
+})
