@@ -9,6 +9,7 @@ import Toast from './components/Toast'
 import TweaksPanel from './components/TweaksPanel'
 import Wizard from './wizard/Wizard'
 import Board from './board/Board'
+import SaveModal, { decodeState } from './components/SaveModal'
 
 export default function App() {
   const {
@@ -22,9 +23,25 @@ export default function App() {
     resetProgress,
   } = useStore()
 
-  const c = COUNTRIES[country]
+  const c = COUNTRIES[country] ?? COUNTRIES.canada
   const done  = DOCS.filter((d) => statuses[d.id] === 'done').length
   const total = DOCS.length
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (!hash.startsWith('#s=')) return
+    const encoded = hash.slice(3)
+    const restored = decodeState(encoded)
+    if (!restored) return
+    if (restored.country)  setCountry(restored.country)
+    if (restored.current !== undefined) setCurrent(restored.current)
+    if (restored.profile)  setProfile(restored.profile)
+    if (restored.statuses) {
+      Object.entries(restored.statuses).forEach(([id, status]) => setStatus(id, status))
+    }
+    window.history.replaceState(null, '', window.location.pathname + window.location.search)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     document.body.dataset.theme   = tweaks.theme
@@ -48,12 +65,21 @@ export default function App() {
     setTimeout(() => setToast((t) => ({ ...t, show: false })), 1800)
   }, [])
 
+  const [saveModalOpen, setSaveModalOpen] = useState(false)
+  const [page, setPage] = useState('app')
+
   const handleCountry = (val) => { setCountry(val); flash('Switched country') }
   const handleReset   = () => { resetProgress(); flash('Progress reset') }
 
   return (
     <div className="app">
-      <TopBar country={country} onCountry={handleCountry} />
+      <TopBar
+        country={country}
+        onCountry={handleCountry}
+        onSaveModal={() => setSaveModalOpen(true)}
+        page={page}
+        onPage={setPage}
+      />
 
       <div>
         <div className="page-head">
@@ -119,6 +145,16 @@ export default function App() {
 
       <TweaksPanel tweaks={tweaks} setTweak={setTweak} />
       <Toast msg={toast.msg} show={toast.show} />
+
+      {saveModalOpen && (
+        <SaveModal
+          statuses={statuses}
+          current={current}
+          profile={profile}
+          country={country}
+          onClose={() => setSaveModalOpen(false)}
+        />
+      )}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { COUNTRIES } from '../data/countries'
 
-export default function TopBar({ country, onCountry }) {
+export default function TopBar({ country, onCountry, onSaveModal, page, onPage }) {
   return (
     <header className="topbar">
       <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
@@ -9,10 +9,26 @@ export default function TopBar({ country, onCountry }) {
           VisaPrep
         </div>
         <nav>
-          <a href="#" className="active">Application</a>
-          <a href="#">Guides</a>
-          <a href="#">Documents</a>
-          <a href="#">Help</a>
+          <a
+            href="#"
+            className={page === 'app' ? 'active' : ''}
+            onClick={(e) => { e.preventDefault(); onPage('app') }}
+          >Application</a>
+          <a
+            href="#"
+            className={page === 'guides' ? 'active' : ''}
+            onClick={(e) => { e.preventDefault(); onPage('guides') }}
+          >Guides</a>
+          <a
+            href="#"
+            className={page === 'documents' ? 'active' : ''}
+            onClick={(e) => { e.preventDefault(); onPage('documents') }}
+          >Documents</a>
+          <a
+            href="#"
+            className={page === 'help' ? 'active' : ''}
+            onClick={(e) => { e.preventDefault(); onPage('help') }}
+          >Help</a>
         </nav>
       </div>
       <div className="right">
@@ -28,7 +44,7 @@ export default function TopBar({ country, onCountry }) {
           ))}
         </select>
         <button className="btn ghost icon" aria-label="Help">?</button>
-        <button className="btn">Sign in</button>
+        <button className="btn" onClick={onSaveModal}>Sign in</button>
       </div>
     </header>
   )
