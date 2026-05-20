@@ -48,7 +48,7 @@ export default function Wizard({ docs, statuses, current, setCurrent, setStatus,
       <div className="wiz-head">
         <div>
           <div className="step-of">Step {current + 1} of {total}</div>
-          <h2>{doc.title}</h2>
+          <h2>{doc.icon && <span style={{ marginRight: 6 }}>{doc.icon}</span>}{doc.title}</h2>
           <p className="desc">{doc.summary}</p>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
