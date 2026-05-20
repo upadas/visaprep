@@ -1,6 +1,11 @@
 import { COUNTRIES } from '../data/countries'
 
-export default function TopBar({ country, onCountry, onSaveModal, page, onPage }) {
+const CYCLE = { light: 'dark', dark: 'system', system: 'light' }
+const ICON  = { light: '☀️',   dark: '🌙',      system: '💻' }
+
+export default function TopBar({ country, onCountry, onSaveModal, page, onPage, theme, onTheme }) {
+  const currentTheme = ICON[theme] ? theme : 'light'
+
   return (
     <header className="topbar">
       <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
@@ -43,6 +48,14 @@ export default function TopBar({ country, onCountry, onSaveModal, page, onPage }
             <option key={k} value={k}>{v.flag} {v.name} · {v.visa}</option>
           ))}
         </select>
+        <button
+          className="btn ghost icon"
+          aria-label={`Switch to ${CYCLE[currentTheme]} mode`}
+          title={`Theme: ${currentTheme} — click to switch`}
+          onClick={() => onTheme(CYCLE[currentTheme])}
+        >
+          {ICON[currentTheme]}
+        </button>
         <button className="btn ghost icon" aria-label="Help">?</button>
         <button className="btn" onClick={onSaveModal}>Sign in</button>
       </div>

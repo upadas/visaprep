@@ -6,7 +6,6 @@ import TopBar from './components/TopBar'
 import Rail from './components/Rail'
 import ProgressBar from './components/ProgressBar'
 import Toast from './components/Toast'
-import TweaksPanel from './components/TweaksPanel'
 import Wizard from './wizard/Wizard'
 import Board from './board/Board'
 import SaveModal, { decodeState } from './components/SaveModal'
@@ -49,9 +48,19 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    document.body.dataset.theme   = tweaks.theme
-    document.body.dataset.density = tweaks.density
-  }, [tweaks.theme, tweaks.density])
+    const { theme } = tweaks
+    if (theme === 'dark') {
+      document.body.dataset.theme = 'dark'
+    } else if (theme === 'system') {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)')
+      document.body.dataset.theme = mq.matches ? 'dark' : ''
+      const handler = (e) => { document.body.dataset.theme = e.matches ? 'dark' : '' }
+      mq.addEventListener('change', handler)
+      return () => mq.removeEventListener('change', handler)
+    } else {
+      document.body.dataset.theme = ''
+    }
+  }, [tweaks.theme])
 
   useEffect(() => {
     const onKey = (e) => {
@@ -84,6 +93,8 @@ export default function App() {
         onSaveModal={() => setSaveModalOpen(true)}
         page={page}
         onPage={setPage}
+        theme={tweaks.theme}
+        onTheme={(t) => setTweak('theme', t)}
       />
 
       {page === 'guides'    && <GuidesPage />}
@@ -155,7 +166,6 @@ export default function App() {
       </div>
       )}
 
-      <TweaksPanel tweaks={tweaks} setTweak={setTweak} />
       <Toast msg={toast.msg} show={toast.show} />
 
       {saveModalOpen && (

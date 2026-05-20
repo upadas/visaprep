@@ -37,9 +37,17 @@ describe('useStore', () => {
     expect(store().view).toBe('kanban')
   })
 
-  it('setTweak updates tweaks', () => {
-    store().setTweak('theme', 'dark')
-    expect(store().tweaks.theme).toBe('dark')
+  it('initial theme is light', () => {
+    const s = useStore.getInitialState()
+    expect(s.tweaks.theme).toBe('light')
+    expect(s.tweaks.density).toBeUndefined()
+  })
+
+  it('setTweak changes theme', () => {
+    useStore.setState(useStore.getInitialState())
+    const { setTweak } = useStore.getState()
+    setTweak('theme', 'dark')
+    expect(useStore.getState().tweaks.theme).toBe('dark')
   })
 
   it('setProfile merges profile', () => {
