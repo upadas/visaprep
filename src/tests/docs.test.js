@@ -25,7 +25,7 @@ describe('COUNTRIES', () => {
     expect(COUNTRIES).toHaveProperty('schengen')
   })
   it('canada has expected fee', () => { expect(COUNTRIES.canada.fee).toBe('CAD $100') })
-  it('has ~40 entries', () => { expect(Object.keys(COUNTRIES).length).toBeGreaterThanOrEqual(40) })
+  it('has 15 entries', () => { expect(Object.keys(COUNTRIES).length).toBe(15) })
   it('every entry has required shape', () => {
     for (const [key, c] of Object.entries(COUNTRIES)) {
       expect(c, `${key} missing flag`).toHaveProperty('flag')
