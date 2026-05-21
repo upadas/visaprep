@@ -27,9 +27,11 @@ export default function App() {
   } = useStore()
 
   const c = COUNTRIES[country] ?? COUNTRIES.canada
-  const docs = getDocsForCountry(country)
-  const done  = docs.filter((d) => statuses[d.id] === 'done').length
-  const total = docs.length
+  const docs         = getDocsForCountry(country)
+  const requiredDocs = docs.filter((d) => d.required)
+  const done         = docs.filter((d) => statuses[d.id] === 'done').length
+  const total        = docs.length
+  const allRequiredDone = requiredDocs.length > 0 && requiredDocs.every((d) => statuses[d.id] === 'done')
 
   useEffect(() => {
     const hash = window.location.hash
@@ -135,6 +137,7 @@ export default function App() {
                 setView={setView}
                 onPdf={() => flash('PDF generated')}
                 onSave={() => flash('Saved & emailed')}
+                complete={allRequiredDone}
               />
 
               {view === 'wizard'

@@ -1,4 +1,4 @@
-export default function ProgressBar({ done, total, view, setView, onPdf, onSave }) {
+export default function ProgressBar({ done, total, view, setView, onPdf, onSave, complete }) {
   return (
     <div className="progress-bar">
       <div className="row1">
@@ -15,7 +15,14 @@ export default function ProgressBar({ done, total, view, setView, onPdf, onSave 
               ▦ Board
             </button>
           </div>
-          <button className="btn" onClick={onPdf}>⤓ PDF</button>
+          <button
+            className={`btn${complete ? ' pdf-ready' : ''}`}
+            onClick={onPdf}
+            disabled={!complete}
+            aria-label={complete ? 'Download PDF checklist' : 'Complete all required documents to unlock PDF'}
+          >
+            ⤓ PDF
+          </button>
           <button className="btn primary" onClick={onSave}>Save my progress</button>
         </div>
       </div>
