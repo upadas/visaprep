@@ -117,6 +117,7 @@ export const DOCS = [
   },
   {
     id: 'biometrics',
+    icon: '🫆',
     title: 'Biometrics receipt',
     summary: 'CAD $85 fee, taken at a VAC within 30 days of application.',
     required: true,

@@ -125,7 +125,9 @@ body {
 .btn.ghost:hover { background: var(--surface-2); }
 .btn.sm { padding: 5px 10px; font-size: 13px; }
 .btn.icon { padding: 7px 8px; }
-.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn.pdf-ready { background: var(--ok); color: white; border-color: var(--ok); }
+.btn.pdf-ready:hover { filter: brightness(1.1); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* ===== Wizard ===== */
 .wizard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); }

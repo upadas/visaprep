@@ -20,14 +20,19 @@ const INITIAL = {
   profile: { passport: 'India', purpose: 'Tourism', stay: '14 days', party: 'Family', history: 'No' },
   statuses: {},
   files: {},
-  tweaks: { theme: 'blue', density: 'default' },
+  tweaks: { theme: 'light' },
 }
 
 export const useStore = create((set, get) => ({
   ...INITIAL,
   statuses: load(LS_STATUS, {}),
   files:    load(LS_FILES,  {}),
-  tweaks:   load(LS_TWEAKS, INITIAL.tweaks),
+  tweaks: (() => {
+    const raw = load(LS_TWEAKS, { theme: 'light' })
+    const valid = ['light', 'dark', 'system']
+    const theme = valid.includes(raw?.theme) ? raw.theme : 'light'
+    return { theme }
+  })(),
 
   setCountry: (country) => set({ country }),
   setView:    (view)    => set({ view }),
@@ -64,5 +69,5 @@ useStore.getInitialState = () => ({
   ...INITIAL,
   statuses: {},
   files: {},
-  tweaks: { ...INITIAL.tweaks },
+  tweaks: { theme: 'light' },
 })

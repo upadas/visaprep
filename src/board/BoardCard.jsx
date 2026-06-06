@@ -25,7 +25,7 @@ export default function BoardCard({ doc, index, onClick }) {
       tabIndex={0}
       role="button"
     >
-      <div className="t">{doc.title}</div>
+      <div className="t">{doc.icon && <span style={{ marginRight: 4 }}>{doc.icon}</span>}{doc.title}</div>
       <div className="m">{doc.summary}</div>
       <div className="footer">
         <span className={'dot ' + (doc.required ? 'req' : 'rec')} />
