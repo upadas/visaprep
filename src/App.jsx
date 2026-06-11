@@ -9,6 +9,8 @@ import Toast from './components/Toast'
 import Wizard from './wizard/Wizard'
 import Board from './board/Board'
 import SaveModal, { decodeState } from './components/SaveModal'
+import ConfirmDialog from './components/ConfirmDialog'
+import { clearBlobs } from './lib/fileStorage'
 import GuidesPage from './pages/GuidesPage'
 import DocumentsPage from './pages/DocumentsPage'
 import HelpPage from './pages/HelpPage'
@@ -83,9 +85,17 @@ export default function App() {
   }, [])
 
   const [saveModalOpen, setSaveModalOpen] = useState(false)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   const handleCountry = (val) => { setCountry(val); flash('Switched country') }
-  const handleReset   = () => { resetProgress(); flash('Progress reset') }
+  const handleReset   = () => setConfirmReset(true)
+
+  const doReset = async () => {
+    await clearBlobs()
+    resetProgress()
+    setConfirmReset(false)
+    flash('Progress reset')
+  }
 
   return (
     <div className="app">
@@ -170,6 +180,16 @@ export default function App() {
       )}
 
       <Toast msg={toast.msg} show={toast.show} />
+
+      {confirmReset && (
+        <ConfirmDialog
+          title="Reset all progress?"
+          message="This will erase all document statuses and uploaded files. This cannot be undone."
+          confirmLabel="Yes, reset everything"
+          onConfirm={doReset}
+          onCancel={() => setConfirmReset(false)}
+        />
+      )}
 
       {saveModalOpen && (
         <SaveModal
