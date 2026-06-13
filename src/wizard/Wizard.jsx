@@ -1,6 +1,7 @@
 import DropZone from './DropZone'
 import FileCard from './FileCard'
 import ChecksList from './ChecksList'
+import { saveBlob, removeBlob } from '../lib/fileStorage'
 
 export default function Wizard({ docs, statuses, current, setCurrent, setStatus, files, setFiles }) {
   const total = docs.length
@@ -9,10 +10,13 @@ export default function Wizard({ docs, statuses, current, setCurrent, setStatus,
 
   const goto = (i) => setCurrent(Math.max(0, Math.min(total - 1, i)))
 
-  const onUpload = () =>
-    setFiles({ ...files, [doc.id]: { name: doc.id + '.pdf', size: '1.4 MB · 8 pages', at: 'just now' } })
+  const onUpload = async (fileData) => {
+    await saveBlob(doc.id, fileData.dataURL)
+    setFiles({ ...files, [doc.id]: { name: fileData.name, sizeBytes: fileData.sizeBytes, type: fileData.type, at: fileData.at, dataURL: fileData.dataURL } })
+  }
 
-  const onRemove = () => {
+  const onRemove = async () => {
+    await removeBlob(doc.id)
     const next = { ...files }
     delete next[doc.id]
     setFiles(next)

@@ -209,6 +209,10 @@ body {
 @keyframes fadein { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
 .fade { animation: fadein 320ms cubic-bezier(.2,.8,.2,1) both; }
 
+/* ===== Modal ===== */
+.modal-overlay { position: fixed; inset: 0; background: rgba(14,17,22,.5); display: grid; place-items: center; z-index: 50; }
+.modal { background: var(--surface); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-lg); width: 90%; }
+
 /* ===== Responsive ===== */
 @media (max-width: 700px) {
   .page-head, .page-body { padding-left: 16px; padding-right: 16px; }
