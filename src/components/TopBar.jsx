@@ -3,7 +3,7 @@ import { COUNTRIES } from '../data/countries'
 const CYCLE = { light: 'dark', dark: 'system', system: 'light' }
 const ICON  = { light: '☀️',   dark: '🌙',      system: '💻' }
 
-export default function TopBar({ country, onCountry, onSaveModal, page, onPage, theme, onTheme }) {
+export default function TopBar({ country, onCountry, onSaveModal, onHelp, page, onPage, theme, onTheme }) {
   const currentTheme = ICON[theme] ? theme : 'light'
 
   return (
@@ -56,7 +56,7 @@ export default function TopBar({ country, onCountry, onSaveModal, page, onPage, 
         >
           {ICON[currentTheme]}
         </button>
-        <button className="btn ghost icon" aria-label="Help">?</button>
+        <button className="btn ghost icon" aria-label="How saving works" onClick={onHelp}>?</button>
         <button className="btn" onClick={onSaveModal}>Sign in</button>
       </div>
     </header>

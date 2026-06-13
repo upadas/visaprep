@@ -7,6 +7,7 @@ const base = {
   country: 'canada',
   onCountry: vi.fn(),
   onSaveModal: vi.fn(),
+  onHelp: vi.fn(),
   page: 'app',
   onPage: vi.fn(),
   theme: 'light',
@@ -47,6 +48,14 @@ describe('TopBar', () => {
     render(<TopBar {...base} onSaveModal={onSaveModal} />)
     await user.click(screen.getByRole('button', { name: /sign in/i }))
     expect(onSaveModal).toHaveBeenCalled()
+  })
+
+  it('clicking the ? button calls onHelp', async () => {
+    const user = userEvent.setup()
+    const onHelp = vi.fn()
+    render(<TopBar {...base} onHelp={onHelp} />)
+    await user.click(screen.getByRole('button', { name: /how saving works/i }))
+    expect(onHelp).toHaveBeenCalled()
   })
 
   it('theme button shows correct icon for light theme', () => {

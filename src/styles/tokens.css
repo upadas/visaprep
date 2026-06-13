@@ -31,9 +31,6 @@
   --line:#262C36; --line-2:#323945;
   --brand:#5B9DD9; --brand-2:#7CB3E3; --brand-soft:#1A2A3A;
 }
-[data-density="compact"]  { --pad:14px; --gap:10px; --row:44px; }
-[data-density="default"]  { --pad:18px; --gap:14px; --row:52px; }
-[data-density="spacious"] { --pad:26px; --gap:20px; --row:64px; }
 
 /* ===== Reset ===== */
 *, *::before, *::after { box-sizing: border-box; }
