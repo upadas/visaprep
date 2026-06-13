@@ -9,6 +9,7 @@ import Toast from './components/Toast'
 import Wizard from './wizard/Wizard'
 import Board from './board/Board'
 import SaveModal, { decodeState } from './components/SaveModal'
+import HelpModal from './components/HelpModal'
 import ConfirmDialog from './components/ConfirmDialog'
 import { clearBlobs } from './lib/fileStorage'
 import GuidesPage from './pages/GuidesPage'
@@ -85,6 +86,7 @@ export default function App() {
   }, [])
 
   const [saveModalOpen, setSaveModalOpen] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
   const [confirmReset, setConfirmReset] = useState(false)
 
   const handleCountry = (val) => { setCountry(val); flash('Switched country') }
@@ -103,6 +105,7 @@ export default function App() {
         country={country}
         onCountry={handleCountry}
         onSaveModal={() => setSaveModalOpen(true)}
+        onHelp={() => setHelpOpen(true)}
         page={page}
         onPage={setPage}
         theme={tweaks.theme}
@@ -190,6 +193,8 @@ export default function App() {
           onCancel={() => setConfirmReset(false)}
         />
       )}
+
+      {helpOpen && <HelpModal onClose={() => setHelpOpen(false)} />}
 
       {saveModalOpen && (
         <SaveModal
