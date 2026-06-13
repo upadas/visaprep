@@ -27,23 +27,29 @@ describe('GuidesPage', () => {
 })
 
 describe('DocumentsPage', () => {
-  it('renders a heading', () => {
+  it('renders a heading with country name', () => {
     render(<DocumentsPage />)
-    expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
+    // store defaults to 'canada'
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Canada')
   })
 
-  it('renders document type cards (8 cards)', () => {
+  it('renders real doc titles from getDocsForCountry', () => {
     render(<DocumentsPage />)
-    // 1 h1 + 8 h2s (one per doc type card)
-    const h2s = screen.getAllByRole('heading', { level: 2 })
-    expect(h2s.length).toBe(8)
+    expect(screen.getByText('Valid passport')).toBeInTheDocument()
+    expect(screen.getByText('Proof of funds')).toBeInTheDocument()
   })
 
-  it('renders known document type names', () => {
+  it('does not show stale "40" text', () => {
     render(<DocumentsPage />)
-    expect(screen.getByText('Passport')).toBeInTheDocument()
-    expect(screen.getByText('Bank statements')).toBeInTheDocument()
-    expect(screen.getByText('Biometrics')).toBeInTheDocument()
+    expect(screen.queryByText(/40/)).not.toBeInTheDocument()
+  })
+
+  it('renders Required and Optional badges', () => {
+    render(<DocumentsPage />)
+    const requiredBadges = screen.getAllByText('Required')
+    expect(requiredBadges.length).toBeGreaterThan(0)
+    const optionalBadges = screen.getAllByText('Optional')
+    expect(optionalBadges.length).toBeGreaterThan(0)
   })
 })
 
