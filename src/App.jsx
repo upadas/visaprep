@@ -92,6 +92,16 @@ export default function App() {
   const handleCountry = (val) => { setCountry(val); flash('Switched country') }
   const handleReset   = () => setConfirmReset(true)
 
+  const handlePdf = async () => {
+    try {
+      const { downloadChecklistPdf } = await import('./lib/generatePdf')
+      downloadChecklistPdf({ country, countryMeta: c, profile, docs, statuses, files })
+      flash('PDF downloaded')
+    } catch {
+      flash('Could not generate PDF')
+    }
+  }
+
   const doReset = async () => {
     await clearBlobs()
     resetProgress()
@@ -148,8 +158,8 @@ export default function App() {
                 total={total}
                 view={view}
                 setView={setView}
-                onPdf={() => flash('PDF generated')}
-                onSave={() => flash('Saved & emailed')}
+                onPdf={handlePdf}
+                onSave={() => setSaveModalOpen(true)}
                 complete={allRequiredDone}
               />
 
