@@ -12,6 +12,7 @@ import SaveModal, { decodeState } from './components/SaveModal'
 import HelpModal from './components/HelpModal'
 import ConfirmDialog from './components/ConfirmDialog'
 import { clearBlobs } from './lib/fileStorage'
+import { downloadChecklistPdf } from './lib/generatePdf'
 import GuidesPage from './pages/GuidesPage'
 import DocumentsPage from './pages/DocumentsPage'
 import HelpPage from './pages/HelpPage'
@@ -92,6 +93,15 @@ export default function App() {
   const handleCountry = (val) => { setCountry(val); flash('Switched country') }
   const handleReset   = () => setConfirmReset(true)
 
+  const handlePdf = () => {
+    try {
+      downloadChecklistPdf({ country, countryMeta: c, profile, docs, statuses, files })
+      flash('PDF downloaded')
+    } catch {
+      flash('Could not generate PDF')
+    }
+  }
+
   const doReset = async () => {
     await clearBlobs()
     resetProgress()
@@ -148,7 +158,7 @@ export default function App() {
                 total={total}
                 view={view}
                 setView={setView}
-                onPdf={() => flash('PDF generated')}
+                onPdf={handlePdf}
                 onSave={() => flash('Saved & emailed')}
                 complete={allRequiredDone}
               />
